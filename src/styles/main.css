@@ -1,0 +1,32 @@
+@tailwind base;
+
+@tailwind components;
+
+@keyframes spin {
+    from {
+        transform: rotate(0deg);
+    }
+    to {
+        transform: rotate(360deg);
+    }
+}
+body {
+    background-color: #ededed;
+}
+.colorPicker-input input {
+    width: 100%;
+    @apply p-2  rounded-sm border-2 border-gray-300  outline-none;
+}
+.colorPicker-input input:focus {
+    @apply border-orange-500;
+}
+.animate-spin {
+    animation: spin 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+}
+.tooltip .tooltip-text{
+    display: none;
+}
+.tooltip:hover .tooltip-text {
+    display: flex;
+}
+@tailwind utilities;

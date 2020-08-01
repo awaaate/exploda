@@ -8,8 +8,20 @@
     "start": "next start"
   },
   "dependencies": {
+    "color-scheme": "^1.0.1",
+    "colorthief": "^2.3.2",
+    "html2canvas": "^1.0.0-rc.5",
+    "mini-svg-data-uri": "^1.2.3",
     "next": "9.4.4",
+    "postcss-import": "^12.0.1",
     "react": "16.13.1",
-    "react-dom": "16.13.1"
+    "react-color": "^2.18.1",
+    "react-dom": "16.13.1",
+    "react-icons": "^3.10.0",
+    "react-textarea-autosize": "^8.2.0",
+    "react-textfit": "^1.1.0",
+    "tailwindcss": "^1.6.0",
+    "unsplash-js": "^6.0.0",
+    "uuidv4": "^6.2.0"
   }
 }
