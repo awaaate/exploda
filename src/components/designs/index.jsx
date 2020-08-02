@@ -8,13 +8,14 @@ export default function (nonScaled) {
     const { size } = useDesignPropsContext();
 
     const Component = components[index];
-
+    const scale = Math.min(500 / size.width, 700 / size.height)
     return (
         <div
             className="origin-top-left absolute"
-            id="canvas"
+           id="canvas"
             style={{
-                transform: nonScaled ? `scale(${500 / size.width})` : null,
+                ...size,
+                transform: nonScaled ? `scale(${scale})` : null,
             }}
         >
             <Component></Component>

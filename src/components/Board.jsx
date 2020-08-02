@@ -1,4 +1,4 @@
-import React, { useEffect, useReducer, useRef } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { useBoardContext } from "../lib/context/BoardContext";
 
 import Designs from "./designs";
@@ -6,10 +6,8 @@ import { getPalette } from "../lib/getPalette";
 
 import { useDesignPropsContext } from "../lib/context/DesignPropsContext";
 import SizeSelector from "./selectors/Size";
-import dynamic from "next/dynamic";
 import { uuid } from "uuidv4";
-let html2canvas = null;
-import("html2canvas").then((a) => (html2canvas = a.default));
+import ImageLoader from "./common/ImageLoader";
 
 const Board = () => {
     const {
@@ -20,8 +18,8 @@ const Board = () => {
         setPalette,
     } = useBoardContext();
     const { setColors, setImage, size, image } = useDesignPropsContext();
-    const { setDesigns } = useBoardContext();
-    const link = useRef(null);
+    const [previewSrc, setPreviewSrc] = useState("");
+    const img = useRef(null);
     useEffect(() => {
         const img = new Image();
 
@@ -38,11 +36,19 @@ const Board = () => {
     }, [image]);
 
     const saveDesign = async () => {
-        const canvas = document.getElementById("canvas");
+        const el = document.getElementById("canvas");
         const id = uuid();
-        console.log(id)
-        setDesigns((designs) => [{ id, design: canvas.innerHTML }, ...designs]);
+        try {
+            const src = `http://localhost:3000/api/design?width=${
+                size.width
+            }&height=${size.height}&html=${encodeURI(el.innerHTML)}`;
+            setPreviewSrc(src);
+        } catch (error) {
+            console.log(error);
+        }
     };
+    const scale = Math.min(500 / size.width, 700 / size.height);
+
     return (
         <div className="flex flex-col items-center">
             <div
@@ -60,6 +66,7 @@ const Board = () => {
                 </div>
             </div>
             <SizeSelector />
+            <ImageLoader src={previewSrc} />
             <button onClick={saveDesign}>Save</button>
         </div>
     );

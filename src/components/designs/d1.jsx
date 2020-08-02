@@ -1,7 +1,6 @@
 import { useDesignPropsContext } from "../../lib/context/DesignPropsContext";
-import { useEffect } from "react";
+import { useEffect, useRef, useState } from "react";
 
-const opacity = ((Math.random() * 50 + 20) / 100).toFixed(2);
 export default function d1() {
     const {
         body,
@@ -14,44 +13,67 @@ export default function d1() {
     useEffect(() => {
         setHeader((props) => ({ ...props, visible: false }));
     }, []);
+
     return (
         <div
-            className="overflow-hidden relative flex justify-center items-center origin-top-left w-full h-full"
-            style={{ ...size }}
+            style={{
+                display: "flex",
+                overflow: "hidden",
+                position: "relative",
+                justifyContent: "center",
+                alignItems: "center",
+                transformOrigin: "top left",
+                ...size,
+            }}
         >
-            <div
+            {/*   <div
                 className="absolute w-full h-full bg-black left-0 top-0"
                 style={{
                     opacity: opacity,
                 }}
-            ></div>
-            <img src={image} className="w-full h-full object-cover " />
+            ></div> */}
+            <img
+                src={image}
+                style={{
+                    width: "100%",
+                    height: "100%",
+                    objectFit: "cover",
+                }}
+            />
             <div
-                className="absolute rounded-md shadow flex flex-col justify-center items-center"
                 style={{
                     background: colors.primary,
                     height: size.width / 2,
                     width: size.width / 2,
-                    overflowWrap: "break-word",
                     overflow: "hidden",
+                    position: "absolute",
+                    boxShadow:
+                        "0 1px 3px 0 rgba(0, 0, 0, 0.1), 0 1px 2px 0 rgba(0, 0, 0, 0.06)",
+                    display: "flex",
+                    flexDirection: "column",
+                    justifyContent: "center",
+                    alignItems: "center",
+                    borderRadius: "0.375rem",
                 }}
             >
                 <p
-                    className="m-5 break-all"
                     style={{
                         color: colors.text,
                         fontSize: "200%",
                         textAlign: "center",
                         marginBottom: "10%",
+                        margin: "1.25rem",
+                        width: "100%",
+                        padding: '1rem'
                     }}
                 >
                     {body.value}
                 </p>
                 <p
-                    className="font-semibold  "
                     style={{
                         color: colors.secondary,
                         fontSize: "150%",
+                        fontWeight: "600",
                     }}
                 >
                     {caption.value}
