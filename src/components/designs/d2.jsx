@@ -3,6 +3,11 @@ import { useEffect } from "react";
 import { fontStyleParser } from "../../lib/utils";
 import TextBlock from "./blocks/Text";
 import Block from "./blocks/Block";
+import {
+    setHeader,
+    setBody,
+    setCaption,
+} from "../../lib/context/designProps/utils";
 
 export default function ({}) {
     const {
@@ -12,21 +17,18 @@ export default function ({}) {
         colors,
         image,
         header,
-        setImage,
-        setHeader,
-        setBody,
-        setCaption,
+        set,
     } = useDesignPropsContext();
     useEffect(() => {
-        setImage(
+        set(
+            "image",
             "https://pixabay.com/get/5fe3d4444a54b108f5d084609629307b143fdeed534c704c7c297ed7914dc65e_1280.jpg"
         );
-        setHeader((props) => ({ ...props, visible: false }));
-        setBody((props) => ({
-            ...props,
+        setHeader(set, { visible: false });
+        setBody(set, {
             value: "El bosque despierto",
-        }));
-        setCaption((props) => ({ ...props, value: "@instagram_me" }));
+        });
+        setCaption(set, { value: "@instagram_me" });
     }, []);
     return (
         <div
