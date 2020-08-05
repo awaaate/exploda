@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { FaSearch, FaInfo } from "react-icons/fa";
 
-import { useDesignPropsContext } from "../../lib/context/DesignPropsContext";
+import { useDesignPropsContext } from "../../lib/context/designProps/context";
 import { useBoardContext } from "../../lib/context/BoardContext";
 
 import { getImageDataURL } from "../../lib/utils";
@@ -60,7 +60,7 @@ const ImageSelector = () => {
     const [results, setResults] = useState([]);
 
     const { imagesList } = useBoardContext();
-    const { setImage, image } = useDesignPropsContext();
+    const { set, image } = useDesignPropsContext();
     const [query, setQuery] = useState();
     const onImageUpload = async (event) => {
         const file = event.target.files[0];
@@ -68,8 +68,7 @@ const ImageSelector = () => {
         setImage(src);
     };
     const onClickHandler = (image) => async () => {
-      
-        setImage(image);
+        set("image", image);
     };
     const onSearchFormSubmit = (event) => {
         event.preventDefault();
@@ -99,7 +98,7 @@ const ImageSelector = () => {
                     placeholder="search 2m+ images"
                 />
             </form>
-            <div className="h-full max-h-full overflow-y-auto my-2">
+            <div className="h-full max-h-full overflow-y-auto my-2 grid grid-cols-2 gap-2">
                 {query ? (
                     <ResultsList
                         results={results}

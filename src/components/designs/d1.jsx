@@ -1,84 +1,63 @@
-import { useDesignPropsContext } from "../../lib/context/DesignPropsContext";
-import { useEffect, useRef, useState } from "react";
+import { useEffect } from "react";
 
-export default function d1() {
+import { fontStyleParser } from "../../lib/utils";
+import { useDesignPropsContext } from "../../lib/context/designProps/context";
+
+import { FaQuoteLeft, FaQuoteRight } from "react-icons/fa";
+
+import ImageBlock from "./blocks/Image";
+import TextBlock from "./blocks/Text";
+import Block from "./blocks/Block";
+import {
+    setHeader,
+    setBody,
+    setCaption,
+} from "../../lib/context/designProps/utils";
+
+export default function ({}) {
     const {
-        body,
-        size,
-        caption,
+        set,
         colors,
+        body,
+        caption,
         image,
-        setHeader,
+        ...data
     } = useDesignPropsContext();
     useEffect(() => {
-        setHeader((props) => ({ ...props, visible: false }));
+        console.log(body);
+        set("image", "hands.jpg");
+        setHeader(set, { visible: false });
+        setBody(set, {
+            styles: ["bold"],
+            center: "true",
+            value: "10 lugares perfectos para viajar con niños",
+        });
+        setCaption(set, {
+            styles: ["center"],
+            value: "viajar.com",
+        });
     }, []);
-
     return (
-        <div
-            style={{
-                display: "flex",
-                overflow: "hidden",
-                position: "relative",
-                justifyContent: "center",
-                alignItems: "center",
-                transformOrigin: "top left",
-                ...size,
-            }}
-        >
-            {/*   <div
-                className="absolute w-full h-full bg-black left-0 top-0"
-                style={{
-                    opacity: opacity,
-                }}
-            ></div> */}
-            <img
+        <div className="w-full h-full relative  flex  items-center">
+            <ImageBlock
                 src={image}
-                style={{
-                    width: "100%",
-                    height: "100%",
-                    objectFit: "cover",
-                }}
+                className="w-full h-full object-cover absolute opacity-50"
             />
-            <div
-                style={{
-                    background: colors.primary,
-                    height: size.width / 2,
-                    width: size.width / 2,
-                    overflow: "hidden",
-                    position: "absolute",
-                    boxShadow:
-                        "0 1px 3px 0 rgba(0, 0, 0, 0.1), 0 1px 2px 0 rgba(0, 0, 0, 0.06)",
-                    display: "flex",
-                    flexDirection: "column",
-                    justifyContent: "center",
-                    alignItems: "center",
-                    borderRadius: "0.375rem",
-                }}
-            >
-                <p
-                    style={{
-                        color: colors.text,
-                        fontSize: "200%",
-                        textAlign: "center",
-                        marginBottom: "10%",
-                        margin: "1.25rem",
-                        width: "100%",
-                        padding: '1rem'
-                    }}
-                >
-                    {body.value}
-                </p>
-                <p
-                    style={{
-                        color: colors.secondary,
-                        fontSize: "150%",
-                        fontWeight: "600",
-                    }}
-                >
-                    {caption.value}
-                </p>
-            </div>
+            <TextBlock
+                className="tracking-wide break-words uppercase"
+                size={3.5}
+                text={body}
+            ></TextBlock>
+            <Block
+                color={colors.primary}
+                className="absolute bottom-0 left-0 w-full p-8"
+            ></Block>
+            <TextBlock
+                text={caption}
+                className="opacity-50 absolute bottom-0"
+                style={{ width: "min-content" }}
+                size={2}
+            />
         </div>
     );
 }

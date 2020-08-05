@@ -10,9 +10,10 @@ import SizeSelector from "./selectors/Size";
 import ColorsSelector from "./selectors/Colors";
 import ImageSelector from "./selectors/Images";
 import TextSelector from "./selectors/Tex";
+import DesignSelector from "./selectors/Design";
 
 const Components = {
-    size: <SizeSelector />,
+    designs: <DesignSelector />,
     colors: <ColorsSelector />,
     images: <ImageSelector />,
     text: <TextSelector />,
@@ -37,16 +38,16 @@ const MenuItem = ({ children, icon, name, active, onClick }) => (
     </li>
 );
 const Menu = ({}) => {
-    const [active, setActive] = useState("size");
+    const [active, setActive] = useState("designs");
     const onCLickHandler = (name) => () => {
         setActive(name);
     };
     return (
-        <div className="bg-white h-full flex mr-8  select-none">
+        <div className="bg-white h-full flex mr-8  select-none ">
             <ul className="border-gray-300 border-r-2 pt-4">
                 <MenuItem
                     icon={<FaSquareFull />}
-                    name={"size"}
+                    name={"designs"}
                     active={active}
                     onClick={onCLickHandler}
                 ></MenuItem>
@@ -69,7 +70,14 @@ const Menu = ({}) => {
                     onClick={onCLickHandler}
                 ></MenuItem>
             </ul>
-            <div className="p-2 pt-4 w-64">{Components[active]}</div>
+            <div
+                className="p-2 pt-4"
+                style={{
+                    width: 400,
+                }}
+            >
+                {Components[active]}
+            </div>
         </div>
     );
 };

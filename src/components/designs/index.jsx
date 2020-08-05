@@ -1,24 +1,136 @@
-import d1 from "./d1";
-import { useDesignPropsContext } from "../../lib/context/DesignPropsContext";
+import { useDesignPropsContext } from "../../lib/context/designProps/context";
 import { useBoardContext } from "../../lib/context/BoardContext";
+import Selecto from "react-selecto";
+import Moveable from "react-moveable";
 
-const components = [d1];
-export default function (nonScaled) {
+import dynamic from "next/dynamic";
+import { useState, useEffect, useRef } from "react";
+const components = [
+    dynamic(() => import("./d1")),
+    dynamic(() => import("./d2")),
+    dynamic(() => import("./d3")),
+];
+export default function () {
     const { index } = useBoardContext();
+    const Component = components[index];
+
     const { size } = useDesignPropsContext();
 
-    const Component = components[index];
-    const scale = Math.min(500 / size.width, 700 / size.height)
+    const [targets, setTargets] = useState([]);
+    const [frameMap] = useState(() => new Map());
+    const moveableRef = useRef(null);
+    const selectoRef = useRef(null);
+
+    useEffect(() => {
+        setTargets([]);
+    }, [index, size]);
     return (
-        <div
-            className="origin-top-left absolute"
-           id="canvas"
-            style={{
-                ...size,
-                transform: nonScaled ? `scale(${scale})` : null,
-            }}
-        >
-            <Component></Component>
-        </div>
+        <React.Fragment>
+            <div
+                className="origin-top-left absolute top-0 left-0 bg-white"
+                id="canvas"
+                style={{
+                    ...size,
+                    transform: `scale(${500 / size.width})`,
+                }}
+            >
+                <Component></Component>
+            </div>
+            <Moveable
+                ref={moveableRef}
+                origin={false}
+                draggable={true}
+                target={targets}
+                onClickGroup={(e) => {
+                    selectoRef.current.clickTarget(e.inputEvent, e.inputTarget);
+                }}
+                onDragStart={(e) => {
+                    const target = e.target;
+
+                    if (!frameMap.has(target)) {
+                        frameMap.set(target, {
+                            translate: [0, 0],
+                        });
+                    }
+                    const frame = frameMap.get(target);
+
+                    e.set(frame.translate);
+                }}
+                onDrag={(e) => {
+                    const target = e.target;
+                    const frame = frameMap.get(target);
+
+                    frame.translate = e.beforeTranslate;
+                    target.style.transform = `translate(${frame.translate[0]}px, ${frame.translate[1]}px)`;
+                }}
+                onDragGroupStart={(e) => {
+                    e.events.forEach((ev) => {
+                        const target = ev.target;
+
+                        if (!frameMap.has(target)) {
+                            frameMap.set(target, {
+                                translate: [0, 0],
+                            });
+                        }
+                        const frame = frameMap.get(target);
+
+                        ev.set(frame.translate);
+                    });
+                }}
+                onDragGroup={(e) => {
+                    e.events.forEach((ev) => {
+                        const target = ev.target;
+                        const frame = frameMap.get(target);
+
+                        frame.translate = ev.beforeTranslate;
+                        target.style.transform = `translate(${frame.translate[0]}px, ${frame.translate[1]}px)`;
+                    });
+                }}
+                elementGuidelines={targets}
+                snappable={true}
+                verticalGuidelines={[0, 0.25, 1].map((a) => size.width * a)}
+                horizontalGuidelines={[0, 0.25, 1].map((a) => size.height * a)}
+                snapThreshold={3}
+                isDisplaySnapDigit={true}
+                snapGap={true}
+                snapElement={true}
+                snapVertical={true}
+                snapHorizontal={true}
+                snapCenter={true}
+                snapDigit={0}
+            ></Moveable>
+            <Selecto
+                ref={selectoRef}
+                dragContainer={"#canvas"}
+                selectableTargets={["#canvas .target"]}
+                hitRate={0}
+                selectByClick={true}
+                selectFromInside={true}
+                toggleContinueSelect={["shift"]}
+                onDragStart={(e) => {
+                    e.inputEvent.preventDefault()
+                    const moveable = moveableRef.current;
+                    const target = e.inputEvent.target;
+                    if (
+                        moveable.isMoveableElement(target) ||
+                        targets.some((t) => t === target || t.contains(target))
+                    ) {
+                        e.stop();
+                    }
+                }}
+                onSelectEnd={(e) => {
+                    const moveable = moveableRef.current;
+                    setTargets(e.selected);
+
+                    if (e.isDragStart) {
+                        e.inputEvent.preventDefault();
+
+                        setTimeout(() => {
+                            moveable.dragStart(e.inputEvent);
+                        });
+                    }
+                }}
+            ></Selecto>
+        </React.Fragment>
     );
 }

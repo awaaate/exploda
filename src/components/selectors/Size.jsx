@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { FaInstagram, FaPinterest, FaYoutube } from "react-icons/fa";
 import { sizeParser } from "../../lib/utils";
-import { useDesignPropsContext } from "../../lib/context/DesignPropsContext";
+import { useDesignPropsContext } from "../../lib/context/designProps/context";
 import ToolTip from "../common/ToolTip";
 
 const Option = ({ children, value, name, onClickHandler }) => (

@@ -4,7 +4,9 @@ import nodeHtmlToImage from "node-html-to-image";
 export default async (req, res) => {
     const { width, height, html } = req.query;
     const image = await nodeHtmlToImage({
-        html: `  <head>
+        html: ` </html> 
+        <head>
+        <link href="https://unpkg.com/tailwindcss@^1.0/dist/tailwind.min.css" rel="stylesheet">
             <style>
               body {
                 width: ${width}px;
@@ -15,6 +17,7 @@ export default async (req, res) => {
           <body>${html}</body>
         </html>`,
     });
+
     res.writeHead(200, { "Content-Type": "image/png" });
     res.end(image, "binary");
 };

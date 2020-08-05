@@ -1,5 +1,18 @@
 import { useContext, useState, createContext, useEffect } from "react";
+import { uuid } from "uuidv4";
 
+const designsList = [
+    {
+        image: "1.png",
+        id: uuid(),
+        index: 0,
+    },
+    {
+        image: "2.png",
+        id: uuid(),
+        index: 1,
+    },
+];
 const BoardContext = createContext({
     source: "images/image (17).jpg",
     palette: [],
@@ -17,21 +30,21 @@ const BoardContext = createContext({
 export const BoardContextProvider = ({ children }) => {
     const [palette, setPalette] = useState([]);
     const [source, setSource] = useState("");
-    const [designs, setDesigns] = useState([]);
+    const [designs, setDesigns] = useState(designsList || []);
     const [index, setIndex] = useState(0);
     const [imagesList, setImagesList] = useState([]);
-    useEffect(() => {
+    /*     useEffect(() => {
         const localDesign = localStorage.getItem("designs");
         if (localDesign) {
             setDesigns(JSON.parse(localDesign));
         } else {
             setDesigns([]);
         }
-    }, []);
+    }, []); */
 
-    useEffect(() => {
+    /*     useEffect(() => {
         localStorage.setItem("designs", JSON.stringify(designs));
-    }, [designs]);
+    }, [designs]); */
 
     return (
         <BoardContext.Provider

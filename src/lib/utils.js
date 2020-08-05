@@ -42,23 +42,22 @@ export function capitalize(str) {
     return str.join(" ");
 }
 
-export const fontStyleParser = (name, center) => {
-    center = center ? { textAlign: "center" } : null;
-    return {
-        bold: {
-            ...center,
-            fontWeight: "bold",
-        },
-        italic: {
-            ...center,
-            fontStyle: "italic",
-        },
-        underline: {
-            ...center,
-            textDecoration: "underline",
-        },
-        default: {
-            ...center,
-        },
-    }[name || "default"];
+export const fontStyleParser = (styles) => {
+    styles = styles.map((val) => {
+        return {
+            center: {
+                textAlign: "center",
+            },
+            bold: {
+                fontWeight: "bold",
+            },
+            italic: {
+                fontStyle: "italic",
+            },
+            underline: {
+                textDecoration: "underline",
+            },
+        }[val];
+    });
+    return styles.reduce((acc, val) => ({ ...acc, ...val }), {});
 };

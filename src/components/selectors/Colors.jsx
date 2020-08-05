@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import ColorPicker from "../common/ColoPicker";
 import { capitalize } from "../../lib/utils";
-import { useDesignPropsContext } from "../../lib/context/DesignPropsContext";
+import { useDesignPropsContext } from "../../lib/context/designProps/context";
 
 const Option = ({
     children,
@@ -33,15 +33,14 @@ const Text = ({ children }) => (
 );
 
 const ColorsSelector = () => {
-    const { colors, setColors } = useDesignPropsContext();
+    const { colors, set } = useDesignPropsContext();
     const [active, setActive] = useState();
     const onClickHandler = (key) => () => {
         setActive(key);
     };
     const onColorChangeHandler = (color) => {
         color = color.indexOf("#") ? "#" + color : color;
-        console.log(color, "color");
-        setColors((colors) => ({ ...colors, [active]: color }));
+        set('colors', {[active]: color });
     };
 
     return (

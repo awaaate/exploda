@@ -16,11 +16,16 @@
         "react-color": "^2.18.1",
         "react-dom": "16.13.1",
         "react-icons": "^3.10.0",
+        "react-moveable": "^0.21.6",
+        "react-selecto": "^1.5.2",
         "react-textarea-autosize": "^8.2.0",
         "tailwindcss": "^1.6.0",
         "uuidv4": "^6.2.0"
     },
     "browser": {
         "node-html-to-image": false
+    },
+    "devDependencies": {
+        "use-reducer-logger": "^1.0.2"
     }
 }

@@ -50,7 +50,6 @@ const CustomColorPicker = ({ handleChange, ...props }) => {
                 className="flex colorPicker-input flex-no-wrap w-full"
             >
                 <EditableInput
-                
                     value={props.hex}
                     onChange={handleChange}
                     style={{
@@ -66,6 +65,31 @@ const CustomColorPicker = ({ handleChange, ...props }) => {
         </div>
     );
 };
+const ColorsPalette = ({ palette = [], name, color, onClickHandler }) => {
+    return (
+        <div className="mt-4">
+            <p className="text-gray-900 opacity-75 font-semibold  antialiased my-2">
+                {name}
+            </p>
+            <div className="grid grid-cols-6 gap-2">
+                {palette.map((a) => (
+                    <div
+                        className={`rounded-lg cursor-pointer border-2 hover:shadow-outline ${
+                            color === a ? "shadow-outline" : ""
+                        }`}
+                        style={{
+                            background: a,
+                            width: 46,
+                            height: 46,
+                            borderColor: "rgba(0,0,0,0.08)",
+                        }}
+                        onClick={onClickHandler(a)}
+                    />
+                ))}
+            </div>
+        </div>
+    );
+};
 const ColorPicker = CustomPicker(CustomColorPicker);
 
 const ColorPickerController = ({ color, onChange }) => {
@@ -77,7 +101,6 @@ const ColorPickerController = ({ color, onChange }) => {
     };
 
     const onClickHandler = (color) => () => {
-        console.log(color);
         onChange(color);
     };
     return (
@@ -87,18 +110,34 @@ const ColorPickerController = ({ color, onChange }) => {
                 handleChange={onChangeHandler}
                 color={color}
             />
-            <div className="flex h-8">
-                {palette.map((a) => (
-                    <div
-                        className={`rounded-md flex-grow  cursor-pointer border-2 border-white  ${
-                            color === a ? "border-2 border-orange-500" : ""
-                        }`}
-                        style={{ background: a }}
-                        onClick={onClickHandler(a)}
-                    />
-                ))}
-            </div>
+            <ColorsPalette
+                name="Design Colors"
+                palette={palette}
+                color={color}
+                onClickHandler={onClickHandler}
+            />
+
+            <ColorsPalette
+                name="Default colors"
+                palette={colors}
+                color={color}
+                onClickHandler={onClickHandler}
+            />
         </div>
     );
 };
+const colors = [
+    "#333333",
+    "#808080",
+    "#cccccc",
+    "#D33115",
+    "#E27300",
+    "#FCC400",
+    "#B0BC00",
+    "#68BC00",
+    "#16A5A5",
+    "#009CE0",
+    "#7B64FF",
+    "#FA28FF",
+];
 export default ColorPickerController;
