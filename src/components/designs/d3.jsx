@@ -1,7 +1,7 @@
 import { useEffect } from "react";
 
 import { fontStyleParser } from "../../lib/utils";
-import { useDesignPropsContext } from "../../lib/context/designProps/context";
+import { useDesignPropsContext } from "../../lib/context/design/design.context";
 import Block from "./blocks/Block";
 
 export default function ({}) {

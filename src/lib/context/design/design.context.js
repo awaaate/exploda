@@ -7,11 +7,11 @@ import {
     useEffect,
     useReducer,
 } from "react";
-import { useBoardContext } from "../BoardContext";
+import { useBoardContext } from "../board/board.context";
 
-import Types, { SET_TYPES } from "./types";
-import { setProp } from "./actions";
-import { setImage, createText } from "./utils";
+import Types, { SET_TYPES } from "./design.types";
+import { setProp } from "./design.actions";
+import { setImage, createText } from "./design.utils";
 const DesignPropsContext = createContext({
     state: {},
     set: () => {},
@@ -19,6 +19,7 @@ const DesignPropsContext = createContext({
 });
 
 const designPropsReducer = (state, action) => {
+    const canvas = document.getElementById("canvas");
     const payload = action.payload;
     switch (action.type) {
         case Types.SET_IMAGE:
@@ -26,7 +27,15 @@ const designPropsReducer = (state, action) => {
                 ...state,
                 image: payload,
             };
+        case Types.SET_SIZE:
+            return {
+                ...state,
+                size: action.payload,
+            };
         case Types.SET_COLORS:
+            Object.keys(payload).map((color) => {
+                canvas.style.setProperty(`--${color}`, payload[color]);
+            });
             return {
                 ...state,
                 colors: { ...state.colors, ...payload },
@@ -43,15 +52,19 @@ const designPropsReducer = (state, action) => {
     }
 };
 export const DesignPropsContextProvider = ({ children }) => {
-    const { setImagesList, setPalette } = useBoardContext();
+    const { set: setBoard } = useBoardContext();
 
     const [state, dispatch] = useReducer(designPropsReducer, {
         size: { width: 1000, height: 1000 },
-        colors: {},
+        colors: {
+            primary: "#000",
+            text: "#fff",
+            secondary: "#000",
+        },
         image: "",
-        body: createText(""),
-        header: createText(""),
-        caption: createText(""),
+        body: createText({ size: 40 }),
+        header: createText({ size: 70 }),
+        caption: createText({ size: 12 }),
     });
 
     function set(name, payload) {
@@ -67,9 +80,10 @@ export const DesignPropsContextProvider = ({ children }) => {
         img.src = state.image;
         img.onload = () => {
             const palette = getPalette(img);
+
             set("colors", palette[[0]]);
-            setPalette(palette[1]);
-            setImagesList((images) => [img.src, ...images]);
+            setBoard("palette", palette[1]);
+            setBoard("image list", img.src);
         };
     }, [state.image]);
     return (

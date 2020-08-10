@@ -1,3 +1,5 @@
+import { uuid } from "uuidv4";
+
 const key = "17510080-3d8587e7aca257931bc451509";
 async function getImages(query, page = 1) {
     try {
@@ -5,10 +7,14 @@ async function getImages(query, page = 1) {
         const results = await fetch(url);
         const data = await results.json();
 
-        return data.hits.map((a) => ({
+        const total = data.totalHits;
+        console.log(total)
+        const images = data.hits.map((a) => ({
+            id: uuid(),
             image: a.largeImageURL,
             pageUrl: a.pageURL,
         }));
+        return [images, total];
     } catch (error) {
         console.error(error);
     }

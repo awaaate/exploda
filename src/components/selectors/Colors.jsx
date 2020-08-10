@@ -1,7 +1,9 @@
 import React, { useState, useEffect } from "react";
 import ColorPicker from "../common/ColoPicker";
 import { capitalize } from "../../lib/utils";
-import { useDesignPropsContext } from "../../lib/context/designProps/context";
+import { useDesignPropsContext } from "../../lib/context/design/design.context";
+import { useRef } from "react";
+import { createRef } from "react";
 
 const Option = ({
     children,
@@ -16,7 +18,7 @@ const Option = ({
         className={`flex  px-2 py-4 border-2 m-2 rounded-md  cursor-pointer flex-grow  ${
             active === name ? "border-orange-500" : ""
         }`}
-        onClick={onClickHandler(name)}
+        onClick={(event) => onClickHandler(name, event)}
     >
         <div
             className="w-2/12 rounded-md p-2 mr-5 border-gray-300"
@@ -35,12 +37,15 @@ const Text = ({ children }) => (
 const ColorsSelector = () => {
     const { colors, set } = useDesignPropsContext();
     const [active, setActive] = useState();
-    const onClickHandler = (key) => () => {
+
+    const [trigger, setTrigger] = useState(null);
+    const onClickHandler = (key, event) => {
+        setTrigger(event.currentTarget);
         setActive(key);
     };
     const onColorChangeHandler = (color) => {
         color = color.indexOf("#") ? "#" + color : color;
-        set('colors', {[active]: color });
+        set("colors", { [active]: color });
     };
 
     return (
@@ -70,8 +75,9 @@ const ColorsSelector = () => {
                 </div>
                 <ColorPicker
                     onChange={onColorChangeHandler}
-                    color={colors[active]}
-                />
+                    active={active}
+                    trigger={trigger}
+                ></ColorPicker>
             </div>
         </div>
     );

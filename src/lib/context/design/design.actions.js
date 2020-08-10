@@ -1,4 +1,4 @@
-import types from "./types";
+import types from "./design.types";
 
 export const setProp = (name, value) => ({
     type: types.SET,

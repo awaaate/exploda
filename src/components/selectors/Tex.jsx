@@ -7,15 +7,16 @@ import {
     FaAlignCenter,
     FaInfoCircle,
 } from "react-icons/fa";
-import { useDesignPropsContext } from "../../lib/context/designProps/context";
+import { useDesignPropsContext } from "../../lib/context/design/design.context";
 import { fontStyleParser, capitalize } from "../../lib/utils";
 import ToolTip from "../common/ToolTip";
-import { setBody } from "../../lib/context/designProps/utils";
+import { setBody } from "../../lib/context/design/design.utils";
+import ColoPicker from "../common/ColoPicker";
 
 //options
 const Option = ({ children, styles = [], name, clickHandler }) => (
     <div
-        className={`flex-grow p-1 rounded-sm  mx-1 flex items-center justify-center  cursor-pointer transition-colors ${
+        className={`flex-grow p-1 rounded-sm   flex items-center justify-center  cursor-pointer transition-colors ${
             styles.includes(name) ? "text-blue-700" : "text-blue-900"
         } hover:bg-gray-300`}
         onClick={clickHandler(name)}
@@ -23,8 +24,8 @@ const Option = ({ children, styles = [], name, clickHandler }) => (
         {children}
     </div>
 );
-const TextOptions = ({ clickHandler, text }) => (
-    <div className="flex bg-gray-100 p-2 rounded-md">
+const TextOptions = ({ clickHandler, text, textSizeChange }) => (
+    <div className="grid grid-cols-6 gap-2 bg-gray-100 p-2 rounded-md">
         <Option name="bold" styles={text.styles} clickHandler={clickHandler}>
             <FaBold />
         </Option>
@@ -41,6 +42,12 @@ const TextOptions = ({ clickHandler, text }) => (
         <Option name="center" styles={text.center} clickHandler={clickHandler}>
             <FaAlignCenter />
         </Option>
+        <input
+            className="flex-grow p-1 rounded-md border-2  flex items-center justify-center transition-colors focus:border-orange-500 outline-none col-span-2"
+            type="number"
+            value={text.size}
+            onChange={textSizeChange}
+        />
     </div>
 );
 const LengthToolTip = ({ max = 10, name }) => {
@@ -70,7 +77,13 @@ const TextInput = ({ value, setValue, maxLength, minRow, name, set }) => {
                 }
                 style={{ ...fontStyleParser(value.styles, value.center) }}
             />
-            <TextOptions text={value} clickHandler={clickHandler} />
+            <TextOptions
+                text={value}
+                clickHandler={clickHandler}
+                textSizeChange={({ target }) => {
+                    setValue({name,  size: parseFloat(target.value) });
+                }}
+            />
         </div>
     ) : null;
 };

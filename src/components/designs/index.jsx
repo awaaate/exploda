@@ -1,18 +1,19 @@
-import { useDesignPropsContext } from "../../lib/context/designProps/context";
-import { useBoardContext } from "../../lib/context/BoardContext";
+import { useDesignPropsContext } from "../../lib/context/design/design.context";
+import { useBoardContext } from "../../lib/context/board/board.context";
 import Selecto from "react-selecto";
 import Moveable from "react-moveable";
 
 import dynamic from "next/dynamic";
 import { useState, useEffect, useRef } from "react";
+import { getBoardScale } from "../../lib/utils";
 const components = [
     dynamic(() => import("./d1")),
     dynamic(() => import("./d2")),
     dynamic(() => import("./d3")),
 ];
-export default function () {
+export default function ({}) {
     const { index } = useBoardContext();
-    const Component = components[index];
+    const Component = components[1];
 
     const { size } = useDesignPropsContext();
 
@@ -20,6 +21,8 @@ export default function () {
     const [frameMap] = useState(() => new Map());
     const moveableRef = useRef(null);
     const selectoRef = useRef(null);
+
+    const scale = (window.innerWidth * (5 / 12)) / size.width;
 
     useEffect(() => {
         setTargets([]);
@@ -31,7 +34,7 @@ export default function () {
                 id="canvas"
                 style={{
                     ...size,
-                    transform: `scale(${500 / size.width})`,
+                    transform: `scale(${getBoardScale(size)})`,
                 }}
             >
                 <Component></Component>
@@ -101,6 +104,7 @@ export default function () {
             ></Moveable>
             <Selecto
                 ref={selectoRef}
+                container={document.body}
                 dragContainer={"#canvas"}
                 selectableTargets={["#canvas .target"]}
                 hitRate={0}
@@ -108,7 +112,7 @@ export default function () {
                 selectFromInside={true}
                 toggleContinueSelect={["shift"]}
                 onDragStart={(e) => {
-                    e.inputEvent.preventDefault()
+                    e.inputEvent.preventDefault();
                     const moveable = moveableRef.current;
                     const target = e.inputEvent.target;
                     if (

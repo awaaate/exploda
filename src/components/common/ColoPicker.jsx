@@ -6,7 +6,11 @@ import {
 } from "react-color/lib/components/common";
 import { CustomPicker } from "react-color";
 
-import { useBoardContext } from "../../lib/context/BoardContext";
+import { useBoardContext } from "../../lib/context/board/board.context";
+import Popover from "./Popover";
+import { useDesignPropsContext } from "../../lib/context/design/design.context";
+import { forwardRef } from "react";
+
 const tinycolor = require("tinycolor2");
 
 const PickerContainer = ({ children, className, ...props }) => (
@@ -92,16 +96,20 @@ const ColorsPalette = ({ palette = [], name, color, onClickHandler }) => {
 };
 const ColorPicker = CustomPicker(CustomColorPicker);
 
-const ColorPickerController = ({ color, onChange }) => {
+const ColorPickerController = ({ active }) => {
+    const { colors, set } = useDesignPropsContext();
     const { palette } = useBoardContext();
+    const [color, setColor] = useState("#000");
+    useEffect(() => {
+        setColor(colors[active]);
+    }, [colors]);
     const onChangeHandler = (color, event) => {
         event.preventDefault();
-
-        onChange(color);
+        set("colors", { [active]: "#" + color });
     };
 
     const onClickHandler = (color) => () => {
-        onChange(color);
+        set("colors", { [active]: color });
     };
     return (
         <div className="p-2 ">
@@ -119,14 +127,14 @@ const ColorPickerController = ({ color, onChange }) => {
 
             <ColorsPalette
                 name="Default colors"
-                palette={colors}
+                palette={defaultPalette}
                 color={color}
                 onClickHandler={onClickHandler}
             />
         </div>
     );
 };
-const colors = [
+const defaultPalette = [
     "#333333",
     "#808080",
     "#cccccc",
@@ -140,4 +148,11 @@ const colors = [
     "#7B64FF",
     "#FA28FF",
 ];
-export default ColorPickerController;
+
+export default ({ active, trigger, onChange, ...props }) => {
+    return (
+        <Popover trigger={trigger}>
+            <ColorPickerController active={active} />
+        </Popover>
+    );
+};

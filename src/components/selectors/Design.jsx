@@ -1,13 +1,13 @@
-import { useBoardContext } from "../../lib/context/BoardContext";
+import { useBoardContext } from "../../lib/context/board/board.context";
 const DesignSelector = ({}) => {
-    const { designs, setIndex } = useBoardContext();
+    const { designs, set } = useBoardContext();
     return (
         <div className="grid grid-cols-2 gap-2">
             {designs.map((design) => (
                 <div
                     className="rounded-sm overflow-hidden  cursor-pointer relative shadow-sm"
                     key={design.id}
-                    onClick={() => setIndex(design.index)}
+                    onClick={() => set("index", design.index)}
                 >
                     <img
                         src={"/designs/" + design.image}

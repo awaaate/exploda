@@ -4,6 +4,7 @@ import {
     FaEyeDropper,
     FaImage,
     FaTextHeight,
+    FaRobot,
 } from "react-icons/fa";
 
 import SizeSelector from "./selectors/Size";
@@ -11,12 +12,14 @@ import ColorsSelector from "./selectors/Colors";
 import ImageSelector from "./selectors/Images";
 import TextSelector from "./selectors/Tex";
 import DesignSelector from "./selectors/Design";
+import Automation from "./selectors/automation";
 
 const Components = {
     designs: <DesignSelector />,
     colors: <ColorsSelector />,
     images: <ImageSelector />,
     text: <TextSelector />,
+    automation: <Automation />,
 };
 const MenuItem = ({ children, icon, name, active, onClick }) => (
     <li className="relative ">
@@ -43,7 +46,7 @@ const Menu = ({}) => {
         setActive(name);
     };
     return (
-        <div className="bg-white h-full flex mr-8  select-none ">
+        <div className="w-4/12 bg-white h-full flex mr-8  select-none ">
             <ul className="border-gray-300 border-r-2 pt-4">
                 <MenuItem
                     icon={<FaSquareFull />}
@@ -69,15 +72,14 @@ const Menu = ({}) => {
                     active={active}
                     onClick={onCLickHandler}
                 ></MenuItem>
+                <MenuItem
+                    icon={<FaRobot />}
+                    name={"automation"}
+                    active={active}
+                    onClick={onCLickHandler}
+                ></MenuItem>
             </ul>
-            <div
-                className="p-2 pt-4"
-                style={{
-                    width: 400,
-                }}
-            >
-                {Components[active]}
-            </div>
+            <div className="p-2 pt-4 h-full w-full">{Components[active]}</div>
         </div>
     );
 };

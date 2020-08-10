@@ -7,20 +7,18 @@ export default function TextBlock({
     color,
     textColor,
     className,
-    styles,
-    size = 1,
-    span,
+    style,
+    ...props
 }) {
     return (
         <span
             className={className + " target"}
             style={{
-                ...styles,
-                fontSize: size * 100 + "%",
-                backgroundColor: color || "transparent",
-                color: textColor,
+                ...style,
+                fontSize: text.size,
                 ...fontStyleParser(text.styles),
             }}
+            {...props}
         >
             {text.value}
         </span>

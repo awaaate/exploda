@@ -1,16 +1,26 @@
 import React, { useState, useEffect } from "react";
 
 import Spin from "./Spin";
+import { getImageDataURL } from "../../lib/utils";
+import { downloadImage } from "../../lib/imageGenerationUtils";
 
-const ImageLoader = ({ src, props }) => {
+const ImageLoader = ({ src, download, ...props }) => {
     const [loadEnd, setLoadEnd] = useState(false);
     useEffect(() => {
-        setLoadEnd(false)
+        setLoadEnd(false);
         if (src) {
             const image = new Image();
             image.src = src;
-            image.onload = () => {
-                setLoadEnd(true);
+            image.onload = async () => {
+                if (image.complete && image.naturalHeight > 0) {
+                    setLoadEnd(true);
+                    if (download) {
+                        const response = await fetch(src);
+                        const data = await response.blob();
+                        console.log(data)
+                        downloadImage(data, "exploda.jpeg");
+                    }
+                }
             };
         }
     }, [src]);

@@ -1,7 +1,7 @@
 import { useEffect } from "react";
 
 import { fontStyleParser } from "../../lib/utils";
-import { useDesignPropsContext } from "../../lib/context/designProps/context";
+import { useDesignPropsContext } from "../../lib/context/design/design.context";
 
 import { FaQuoteLeft, FaQuoteRight } from "react-icons/fa";
 
@@ -12,7 +12,7 @@ import {
     setHeader,
     setBody,
     setCaption,
-} from "../../lib/context/designProps/utils";
+} from "../../lib/context/design/design.utils";
 
 export default function ({}) {
     const {
@@ -24,7 +24,6 @@ export default function ({}) {
         ...data
     } = useDesignPropsContext();
     useEffect(() => {
-        console.log(body);
         set("image", "hands.jpg");
         setHeader(set, { visible: false });
         setBody(set, {

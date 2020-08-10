@@ -1,8 +1,9 @@
 import React, { useState, useEffect } from "react";
 import { FaInstagram, FaPinterest, FaYoutube } from "react-icons/fa";
 import { sizeParser } from "../../lib/utils";
-import { useDesignPropsContext } from "../../lib/context/designProps/context";
+import { useDesignPropsContext } from "../../lib/context/design/design.context";
 import ToolTip from "../common/ToolTip";
+import { setCaption } from "../../lib/context/design/design.utils";
 
 const Option = ({ children, value, name, onClickHandler }) => (
     <div
@@ -19,10 +20,10 @@ const Text = ({ children }) => (
 );
 
 const SizeSelector = ({}) => {
-    const { size, setSize } = useDesignPropsContext();
+    const { size, set } = useDesignPropsContext();
 
     const onClickHandler = (val) => () => {
-        setSize(sizeParser(val));
+        set('size', sizeParser(val));
     };
 
     return (

@@ -1,12 +1,14 @@
-import { useBoardContext } from "../BoardContext";
+import { useBoardContext } from "../board/board.context";
 import { getPalette } from "../../getPalette";
 
-export const createText = (value) => ({
-    value: value,
+export const createText = (props) => ({
+    value: "",
     styles: [],
     family: "",
     align: "center",
     visible: true,
+    size: 0,
+    ...props,
 });
 
 export const setHeader = (set, value = {}) => {

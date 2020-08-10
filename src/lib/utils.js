@@ -1,8 +1,3 @@
-/**
- *
- * @param {Blob} image
- * @returns image data as URL
- */
 export function getImageDataURL(image) {
     return new Promise((resolve, reject) => {
         const reader = new FileReader();
@@ -61,3 +56,12 @@ export const fontStyleParser = (styles) => {
     });
     return styles.reduce((acc, val) => ({ ...acc, ...val }), {});
 };
+
+export const getBoardScale = (size) => {
+    const scaleX = (window.innerWidth * (5 / 12)) / size.width;
+    const scaleY = (window.innerWidth * (5 / 12)) / size.height;
+    const scale = Math.min(scaleX, scaleY);
+    return scale;
+};
+
+

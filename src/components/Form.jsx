@@ -1,6 +1,6 @@
 import React from "react";
 
-import { useDesignPropsContext } from "../lib/context/designProps/context";
+import { useDesignPropsContext } from "../lib/context/design/design.context";
 
 const Form = () => {
     const {
