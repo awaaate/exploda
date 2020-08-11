@@ -5,6 +5,7 @@ export default {
     SET_COLORS: "SET_COLORS",
     SET_TEXT_STYLES: "SET_TEXT_STYLES",
     SET_SIZE: "SET_SIZE",
+    SET_LOADED: "SET_LOADED",
 };
 
 export const SET_TYPES = {
@@ -13,4 +14,5 @@ export const SET_TYPES = {
     COLORS: "SET_COLORS",
     TEXT_STYLES: "SET_TEXT_STYLES",
     SIZE: "SET_SIZE",
+    LOADED: "SET_LOADED",
 };

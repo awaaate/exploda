@@ -10,19 +10,19 @@ import { getBoardScale } from "../lib/utils";
 import { useModal, Modal } from "./common/Modal";
 import { generateImage } from "../lib/imageGenerationUtils";
 
+import useGetBoardScale from "../lib/hooks/useGetBoardScale";
 const Board = () => {
     const { size } = useDesignPropsContext();
     const [previewSrc, setPreviewSrc] = useState("");
     const [modalIsOpen, setModalIsOpen] = useState(false);
-
+    const scale = useGetBoardScale(size);
     const saveDesign = async () => {
-        console.log(true);
         setModalIsOpen(true);
         const canvas = document.getElementById("canvas");
         try {
-            const src = `http://localhost:3000/api/design?width=${
-                size.width
-            }&height=${size.height}&html=${encodeURI(generateImage(canvas))}`;
+            const src = `/api/design?width=${size.width}&height=${
+                size.height
+            }&html=${encodeURI(generateImage(canvas))}`;
             setPreviewSrc(src);
         } catch (error) {
             console.log(error);
@@ -38,10 +38,10 @@ const Board = () => {
             <div className="flex justify-around items-center select-none">
                 <div
                     style={{
-                        width: getBoardScale(size) * size.width,
-                        height: getBoardScale(size) * size.height,
+                        width: scale * size.width,
+                        height: scale * size.height,
                     }}
-                    className="bg-red-500 relative"
+                    className="relative"
                 >
                     <Designs />
                 </div>
@@ -60,7 +60,7 @@ const Board = () => {
                 closeHandler={onModalCloseHandler}
                 className="flex items-center justify-center rounded-sm"
             >
-                <ImageLoader src={previewSrc}  download/>
+                <ImageLoader src={previewSrc} download />
             </Modal>
         </div>
     );

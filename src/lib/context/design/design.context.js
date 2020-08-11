@@ -25,6 +25,7 @@ const designPropsReducer = (state, action) => {
         case Types.SET_IMAGE:
             return {
                 ...state,
+                loaded: false,
                 image: payload,
             };
         case Types.SET_SIZE:
@@ -47,15 +48,20 @@ const designPropsReducer = (state, action) => {
                 [name]: { ...state[name], ...textData },
             };
         }
+        case Types.SET_LOADED:
+            return {
+                ...state,
+                loaded: payload,
+            };
         default:
             throw new Error("Unknown action type");
     }
 };
 export const DesignPropsContextProvider = ({ children }) => {
     const { set: setBoard } = useBoardContext();
-
     const [state, dispatch] = useReducer(designPropsReducer, {
         size: { width: 1000, height: 1000 },
+        loaded: false,
         colors: {
             primary: "#000",
             text: "#fff",
@@ -82,6 +88,7 @@ export const DesignPropsContextProvider = ({ children }) => {
             const palette = getPalette(img);
 
             set("colors", palette[[0]]);
+            set("loaded", true);
             setBoard("palette", palette[1]);
             setBoard("image list", img.src);
         };

@@ -8,7 +8,11 @@ export function getImageDataURL(image) {
         };
     });
 }
-
+export function wait(ms) {
+    return new Promise((resolve, reject) => {
+        setTimeout(resolve, ms);
+    });
+}
 export function sizeParser(size) {
     if (size === "instagram") {
         return { width: 1000, height: 1000 };
@@ -63,5 +67,3 @@ export const getBoardScale = (size) => {
     const scale = Math.min(scaleX, scaleY);
     return scale;
 };
-
-

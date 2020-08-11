@@ -14,7 +14,7 @@ export const setColors = ({ row = {}, generationData = {}, canvas }) => {
             "background-color",
             colorValue
         );
-        setClassNameVariable(canvas, `text-` + color, "color", colorValue);
+        setClassNameVariable(canvas, `color-` + color, "color", colorValue);
     });
 };
 
@@ -40,7 +40,7 @@ export const setText = ({ row = {}, generationData = {}, canvas }) => {
     });
 };
 export const setImage = async ({ row = {}, generationData = {}, canvas }) => {
-    const img = canvas.querySelector("#image");
+    const img = canvas.querySelector("img");
     const src = row[generationData["image"]] || "";
     if (src) {
         img.src = src;

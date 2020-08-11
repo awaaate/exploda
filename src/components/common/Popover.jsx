@@ -16,10 +16,8 @@ const Popover = ({ children, trigger }) => {
         modifiers: [{ name: "arrow", options: { element: arrowElement } }],
     });
 
-    console.log(styles.arrow);
 
     useEffect(() => {
-        console.log(trigger);
         if (trigger) {
             open();
             trigger.addEventListener("click", open);

@@ -14,12 +14,12 @@ const ImageLoader = ({ src, download, ...props }) => {
             image.onload = async () => {
                 if (image.complete && image.naturalHeight > 0) {
                     setLoadEnd(true);
-                    if (download) {
+              /*       if (download) {
                         const response = await fetch(src);
                         const data = await response.blob();
                         console.log(data)
                         downloadImage(data, "exploda.jpeg");
-                    }
+                    } */
                 }
             };
         }

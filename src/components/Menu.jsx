@@ -7,19 +7,16 @@ import {
     FaRobot,
 } from "react-icons/fa";
 
-import SizeSelector from "./selectors/Size";
 import ColorsSelector from "./selectors/Colors";
 import ImageSelector from "./selectors/Images";
 import TextSelector from "./selectors/Tex";
 import DesignSelector from "./selectors/Design";
-import Automation from "./selectors/automation";
 
 const Components = {
     designs: <DesignSelector />,
     colors: <ColorsSelector />,
     images: <ImageSelector />,
     text: <TextSelector />,
-    automation: <Automation />,
 };
 const MenuItem = ({ children, icon, name, active, onClick }) => (
     <li className="relative ">
@@ -69,12 +66,6 @@ const Menu = ({}) => {
                 <MenuItem
                     icon={<FaTextHeight />}
                     name={"text"}
-                    active={active}
-                    onClick={onCLickHandler}
-                ></MenuItem>
-                <MenuItem
-                    icon={<FaRobot />}
-                    name={"automation"}
                     active={active}
                     onClick={onCLickHandler}
                 ></MenuItem>

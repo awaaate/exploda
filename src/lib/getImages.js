@@ -8,7 +8,6 @@ async function getImages(query, page = 1) {
         const data = await results.json();
 
         const total = data.totalHits;
-        console.log(total)
         const images = data.hits.map((a) => ({
             id: uuid(),
             image: a.largeImageURL,

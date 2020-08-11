@@ -1,6 +1,6 @@
 import { useDesignPropsContext } from "../../lib/context/design/design.context";
-import { useEffect } from "react";
-import { fontStyleParser } from "../../lib/utils";
+import { useEffect, Fragment } from "react";
+import { fontStyleParser, getImageDataURL } from "../../lib/utils";
 import TextBlock from "./blocks/Text";
 import Block from "./blocks/Block";
 import {
@@ -8,6 +8,7 @@ import {
     setBody,
     setCaption,
 } from "../../lib/context/design/design.utils";
+import { useDesignLoad } from "../../lib/hooks/useDesignLoad";
 
 export default function ({}) {
     const {
@@ -17,15 +18,14 @@ export default function ({}) {
         colors,
         image,
         header,
+        loaded,
         set,
     } = useDesignPropsContext();
     useEffect(() => {
-        set(
-            "image",
-            "https://pixabay.com/get/5fe3d4444a54b108f5d084609629307b143fdeed534c704c7c297ed7914dc65e_1280.jpg"
-        );
+        set("image", "/designs/d2/image.jpg");
         setHeader(set, { visible: false });
         setBody(set, {
+            style: ["center"],
             value: "El bosque despierto",
         });
         setCaption(set, { value: "@instagram_me" });

@@ -22,7 +22,6 @@ export default async (req, res) => {
         </body>
     </html>  
     `);
-
     res.writeHead(200, { "Content-Type": "image/jpeg" });
     res.end(image, "binary");
 };

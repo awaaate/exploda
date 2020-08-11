@@ -5,39 +5,59 @@ import Moveable from "react-moveable";
 
 import dynamic from "next/dynamic";
 import { useState, useEffect, useRef } from "react";
-import { getBoardScale } from "../../lib/utils";
+
+import useGetBoardScale from "../../lib/hooks/useGetBoardScale";
+
+import Spin from "../common/Spin";
 const components = [
     dynamic(() => import("./d1")),
     dynamic(() => import("./d2")),
-    dynamic(() => import("./d3")),
 ];
 export default function ({}) {
     const { index } = useBoardContext();
-    const Component = components[1];
-
-    const { size } = useDesignPropsContext();
+    const Component = components[index];
+    const { size, loaded } = useDesignPropsContext();
+    const scale = useGetBoardScale(size);
 
     const [targets, setTargets] = useState([]);
     const [frameMap] = useState(() => new Map());
     const moveableRef = useRef(null);
     const selectoRef = useRef(null);
-
-    const scale = (window.innerWidth * (5 / 12)) / size.width;
+    const canvasRef = useRef(null);
 
     useEffect(() => {
         setTargets([]);
     }, [index, size]);
+
+    useEffect(() => {
+        const clearTargets = (event) => {
+           
+             if(event.target !== canvasRef.current && !canvasRef.current.contains(event.target)){
+                setTargets([]); 
+            } 
+        };
+        window.addEventListener("click", clearTargets);
+
+        return () => window.removeEventListener("click", clearTargets);
+    }, [canvasRef]);
     return (
         <React.Fragment>
             <div
                 className="origin-top-left absolute top-0 left-0 bg-white"
+                ref={canvasRef}
                 id="canvas"
                 style={{
                     ...size,
-                    transform: `scale(${getBoardScale(size)})`,
+                    transform: `scale(${scale})`,
                 }}
             >
-                <Component></Component>
+                {!loaded ? (
+                    <div className="w-full h-full bg-white absolute top-0 left-0 z-50 flex items-center justify-center">
+                        <Spin />
+                    </div>
+                ) : null}
+
+                <Component />
             </div>
             <Moveable
                 ref={moveableRef}

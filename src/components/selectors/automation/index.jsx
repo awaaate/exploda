@@ -7,7 +7,11 @@ import ImageLoader from "../../common/ImageLoader";
 import { useDesignPropsContext } from "../../../lib/context/design/design.context";
 import CreatedImagesList from "./CreatedImagesList";
 
-import { setColors, setText, setImage } from "../../../lib/imageGenerationUtils";
+import {
+    setColors,
+    setText,
+    setImage,
+} from "../../../lib/imageGenerationUtils";
 
 export default function () {
     const [generationData, setGenerationData] = useState({});
@@ -25,7 +29,7 @@ export default function () {
 
     const fetchImage = async (width, height, html) => {
         const response = await fetch(
-            `http://localhost:3000/api/design?width=${width}&height=${height}&html=${html}`
+            `/api/design?width=${width}&height=${height}&html=${html}`
         );
         const imageBlob = await response.blob();
         return await getImageDataURL(imageBlob);

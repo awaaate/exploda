@@ -12,7 +12,7 @@ export default function TextBlock({
 }) {
     return (
         <span
-            className={className + " target"}
+            className={className + " target absolute"}
             style={{
                 ...style,
                 fontSize: text.size,

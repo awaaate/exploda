@@ -10,12 +10,12 @@ import Types, { SET_TYPES } from "./board.types";
 
 const designsList = [
     {
-        image: "1.png",
+        image: "d1/thumbnail.jpeg",
         id: uuid(),
         index: 0,
     },
     {
-        image: "2.png",
+        image: "d2/thumbnail.jpg",
         id: uuid(),
         index: 1,
     },

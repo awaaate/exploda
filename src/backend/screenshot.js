@@ -10,7 +10,7 @@ const screenshot = async (html) => {
     });
     const page = await browser.newPage();
 
-    await page.setContent(html.trim(), { waitUntil: "networkidle2" });
+    await page.setContent(html.trim(), { waitUntil: 'networkidle0' });
     const element = await page.$("body");
     const buffer = await element.screenshot({ ...screenshotProps });
     return buffer;

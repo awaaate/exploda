@@ -39,7 +39,7 @@ const TextOptions = ({ clickHandler, text, textSizeChange }) => (
         >
             <FaUnderline />
         </Option>
-        <Option name="center" styles={text.center} clickHandler={clickHandler}>
+        <Option name="center" styles={text.style} clickHandler={clickHandler}>
             <FaAlignCenter />
         </Option>
         <input
@@ -70,7 +70,7 @@ const TextInput = ({ value, setValue, maxLength, minRow, name, set }) => {
             <TextareaAutosize
                 minRows={minRow}
                 maxLength={maxLength}
-                className="w-full resize-none outline-none overflow-hidden"
+                className="w-full resize-none outline-none overflow-hidden p-2"
                 value={value.value}
                 onChange={({ target }) =>
                     setValue({ name, value: target.value })
@@ -81,7 +81,7 @@ const TextInput = ({ value, setValue, maxLength, minRow, name, set }) => {
                 text={value}
                 clickHandler={clickHandler}
                 textSizeChange={({ target }) => {
-                    setValue({name,  size: parseFloat(target.value) });
+                    setValue({ name, size: parseFloat(target.value) });
                 }}
             />
         </div>
