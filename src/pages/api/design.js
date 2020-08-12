@@ -3,7 +3,6 @@ import puppeteer from 'puppeteer'
 import screenshot from "../../backend/screenshot";
 
 const browserPromise = puppeteer.launch({
-    args: ["--no-sandbox"],
     headless: true,
 });
 export default async (req, res) => {
