@@ -33,6 +33,7 @@ export default function ({}) {
         const clearTargets = (event) => {
            
              if(event.target !== canvasRef.current && !canvasRef.current.contains(event.target)){
+                 console.log('out')
                 setTargets([]); 
             } 
         };
@@ -43,7 +44,7 @@ export default function ({}) {
     return (
         <React.Fragment>
             <div
-                className="origin-top-left absolute top-0 left-0 bg-white"
+                className={`origin-top-left absolute top-0 left-0 bg-white ${targets.length === 0 ? 'overflow-hidden' : ''}`}
                 ref={canvasRef}
                 id="canvas"
                 style={{

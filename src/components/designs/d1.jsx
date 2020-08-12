@@ -45,7 +45,7 @@ export default function ({}) {
         });
     }, []);
     return (
-        <div className="w-full h-full overflow-hidden">
+        <div className="w-full h-full overflow-hidden ">
             <div className="relative h-full w-1/2 flex items-center justify-center z-10">
                 <TextBlock
                     className="tracking-wide break-words uppercase z-10 color-text p-2 m-2"
@@ -57,10 +57,10 @@ export default function ({}) {
                 />
                 <Block className="w-full h-full opacity-75 bg-primary absolute top-0 left-0" />
             </div>
-            <ImageBlock
-                src={image}
-                className="w-full h-full object-cover absolute z-0 left-0 top-0"
-            />
+                <ImageBlock
+                    src={image}
+                    className="w-full h-full object-cover absolute z-0 left-0 top-0"
+                />
         </div>
     );
 }
