@@ -1,16 +1,21 @@
 // Next.js API route support: https://nextjs.org/docs/api-routes/introduction
-import puppeteer from 'puppeteer'
+import chromium from "chrome-aws-lambda";
 import screenshot from "../../backend/screenshot";
 
-const browserPromise = puppeteer.launch({
-    headless: true,
-});
 export default async (req, res) => {
     try {
         const { html, width, height } = req.query;
-        const browser = await browserPromise
+        const browser = await chromium.puppeteer.launch({
+            args: chromium.args,
+            defaultViewport: chromium.defaultViewport,
+            executablePath: await chromium.executablePath,
+            headless: true,
+            ignoreHTTPSErrors: true,
+        });
         const page = await browser.newPage();
-        const image = await screenshot(page, `
+        const image = await screenshot(
+            page,
+            `
         <html>
             <head>
                 <link
@@ -28,8 +33,9 @@ export default async (req, res) => {
                 ${html}
             </body>
         </html>  
-        `);
-       
+        `
+        );
+
         res.writeHead(200, { "Content-Type": "image/jpeg" });
         res.end(image, "binary");
     } catch (error) {

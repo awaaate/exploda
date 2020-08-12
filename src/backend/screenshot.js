@@ -1,5 +1,3 @@
-const puppeteer = require("puppeteer");
-
 const screenshotProps = {
     type: "jpeg",
     quality: 80,
