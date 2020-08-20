@@ -31,11 +31,12 @@ export default function ({}) {
 
     useEffect(() => {
         const clearTargets = (event) => {
-           
-             if(event.target !== canvasRef.current && !canvasRef.current.contains(event.target)){
-                 console.log('out')
-                setTargets([]); 
-            } 
+            if (
+                event.target !== canvasRef.current &&
+                !canvasRef.current.contains(event.target)
+            ) {
+                setTargets([]);
+            }
         };
         window.addEventListener("click", clearTargets);
 
@@ -44,7 +45,9 @@ export default function ({}) {
     return (
         <React.Fragment>
             <div
-                className={`origin-top-left absolute top-0 left-0 bg-white ${targets.length === 0 ? 'overflow-hidden' : ''}`}
+                className={`origin-top-left absolute top-0 left-0 bg-white ${
+                    targets.length === 0 ? "overflow-hidden" : ""
+                }`}
                 ref={canvasRef}
                 id="canvas"
                 style={{
@@ -64,6 +67,7 @@ export default function ({}) {
                 ref={moveableRef}
                 origin={false}
                 draggable={true}
+                resizable={true}
                 target={targets}
                 onClickGroup={(e) => {
                     selectoRef.current.clickTarget(e.inputEvent, e.inputTarget);
@@ -109,6 +113,46 @@ export default function ({}) {
                         frame.translate = ev.beforeTranslate;
                         target.style.transform = `translate(${frame.translate[0]}px, ${frame.translate[1]}px)`;
                     });
+                }}
+                onResizeGroupStart={({ events }) => {
+                    events.forEach((ev, i) => {
+                        const target = ev.target;
+
+                        if (!frameMap.has(target)) {
+                            frameMap.set(target, {
+                                translate: [0, 0],
+                            });
+                        }
+                        const frame = frameMap.get(target);
+
+                        ev.dragStart && ev.dragStart.set(frame.translate);
+                    });
+                }}
+                onResizeGroup={({ events }) => {
+                    events.forEach((ev, i) => {
+                        const target = ev.target;
+                        const frame = frameMap.get(target);
+
+                        frame.translate = ev.drag.beforeTranslate;
+
+                        ev.target.style.width = `${ev.width}px`;
+                        ev.target.style.height = `${ev.height}px`;
+                        ev.target.style.transform = `translate(${ev.drag.beforeTranslate[0]}px, ${ev.drag.beforeTranslate[1]}px)`;
+                    });
+                }}
+                onResize={({ target, width, height, drag }) => {
+                    if (!frameMap.has(target)) {
+                        frameMap.set(target, {
+                            translate: [0, 0],
+                        });
+                    }
+                    const frame = frameMap.get(target);
+                    target.style.width = `${width}px`;
+                    target.style.height = `${height}px`;
+
+                    // get drag event
+                    frame.translate = drag.beforeTranslate;
+                    target.style.transform = `translate(${drag.beforeTranslate[0]}px, ${drag.beforeTranslate[1]}px)`;
                 }}
                 elementGuidelines={targets}
                 snappable={true}

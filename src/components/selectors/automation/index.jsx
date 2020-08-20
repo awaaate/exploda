@@ -28,38 +28,41 @@ export default function () {
     }, [data, generationData]);
 
     const fetchImage = async (width, height, html) => {
-        const response = await fetch(
-            `/api/design?width=${width}&height=${height}&html=${html}`
-        );
-        const imageBlob = await response.blob();
-        return await getImageDataURL(imageBlob);
+        const url = `/api/design?width=${width}&height=${height}&html=${html}`;
+        const response = await fetch(url);
+        /*const blob = await response.blob(); */
+        return url;
     };
     const generateImages = async () => {
         const canvas = document.getElementById("canvas").cloneNode(true);
         setGeneratingImages("WORKING");
         let images = data.map((row, i) => {
             const primary = row[generationData.primary] || "#000";
+            const fileName =
+                row[generationData.header] ||
+                row[generationData.body] ||
+                `image-${i}`;
+
             setColors({ row, generationData, canvas });
             setText({ row, generationData, canvas });
             setImage({ row, generationData, canvas });
-            return canvas.innerHTML;
+            return { html: canvas.innerHTML, fileName };
         });
 
         for (const imageData of images) {
             const newImage = await fetchImage(
-                size.height,
                 size.width,
-                imageData
+                size.height,
+                imageData.html
             );
             setCreatedImages((images) => [
                 ...images,
                 {
                     id: uuid(),
                     src: newImage,
+                    fileName: imageData.fileName,
                 },
             ]);
-
-            console.log("end");
         }
         setGeneratingImages("END");
     };
@@ -71,6 +74,7 @@ export default function () {
                     <CreatedImagesList
                         images={createdImages}
                         loadend={generatingImages === "END"}
+                        setLoadend={setGeneratingImages}
                     />
                 ) : (
                     <Selectors

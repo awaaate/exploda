@@ -58,7 +58,7 @@ const Board = () => {
             <Modal
                 isOpen={modalIsOpen}
                 closeHandler={onModalCloseHandler}
-                className="flex items-center justify-center rounded-sm"
+                className="flex items-center justify-center rounded-sm w-1/2"
             >
                 <ImageLoader src={previewSrc} download />
             </Modal>

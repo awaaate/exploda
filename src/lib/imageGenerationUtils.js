@@ -1,4 +1,5 @@
 import fileDownload from "js-file-download";
+import { capitalize } from "./utils";
 export const setColors = ({ row = {}, generationData = {}, canvas }) => {
     const colors = {
         primary: canvas.style.getPropertyValue("--primary"),
@@ -27,14 +28,14 @@ export const setClassNameVariable = (canvas, className, property, value) => {
 
 export const setTextValue = (element, value) => {
     if (!value || !element) return;
-    value = value.trim();
+    value = value.toString().trim();
 
     element.innerHTML = value;
 };
 export const setText = ({ row = {}, generationData = {}, canvas }) => {
     ["body", "caption", "header"].map((name) => {
         setTextValue(
-            canvas.querySelector("#" + name),
+            canvas.querySelector("#text" + capitalize(name)),
             row[generationData[name]]
         );
     });
@@ -44,6 +45,7 @@ export const setImage = async ({ row = {}, generationData = {}, canvas }) => {
     const src = row[generationData["image"]] || "";
     if (src) {
         img.src = src;
+        img.crossOrigin = "";
         return;
     }
 };

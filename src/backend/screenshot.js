@@ -1,6 +1,6 @@
 const screenshotProps = {
     type: "jpeg",
-    quality: 80,
+    quality: 100,
 };
 
 const screenshot = async (page, html) => {

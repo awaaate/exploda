@@ -8,6 +8,12 @@ export function getImageDataURL(image) {
         };
     });
 }
+export async function getImageAsBlob(src) {
+    const response = await fetch(src);
+    const image = await response.blob();
+
+    return image;
+}
 export function wait(ms) {
     return new Promise((resolve, reject) => {
         setTimeout(resolve, ms);

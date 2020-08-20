@@ -14,7 +14,9 @@ export const Modal = ({
 
     const clickHandler = ({ target }) => {
         if (!modalRef.current.contains(target)) {
-            closeHandler();
+            if (closeHandler) {
+                closeHandler();
+            }
         }
     };
     return createPortal(
@@ -23,11 +25,7 @@ export const Modal = ({
                 onClick={clickHandler}
                 className={`fixed top-0 left-0 w-full h-full bg-black z-50  flex justify-center items-center bg-opacity-75 `}
             >
-                <div
-                    ref={modalRef}
-                    className={`bg-white shadow-lg w-1/2 h-auto p-2 ${className}`}
-                    {...props}
-                >
+                <div ref={modalRef} className={`${className}`} {...props}>
                     {children}
                 </div>
             </div>

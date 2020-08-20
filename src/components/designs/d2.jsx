@@ -52,11 +52,11 @@ export default function ({}) {
                     width: size.width / 1.5,
                 }}
                 text={body}
-                id="body"
+                name="body"
             ></TextBlock>
             <TextBlock
                 text={caption}
-                id="caption"
+                name="caption"
                 className="absolute bottom-0 mb-8 opacity-75  tracking-wide color-primary"
             ></TextBlock>
         </div>
