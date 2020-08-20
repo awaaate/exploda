@@ -22,7 +22,7 @@ export default function ({}) {
         set,
     } = useDesignPropsContext();
     useEffect(() => {
-        set("image", "/designs/d2/image.jpg");
+        set("image", "https://p1.pxfuel.com/preview/979/41/195/green-grass-woods-forest-trees-nature.jpg");
         setHeader(set, { visible: false });
         setBody(set, {
             style: ["center"],

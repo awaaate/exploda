@@ -26,9 +26,8 @@ export default function ({}) {
         loaded,
         ...data
     } = useDesignPropsContext();
-
     useEffect(() => {
-        set("image", "designs/d1/image.jpg");
+        set("image", "https://p1.pxfuel.com/preview/794/872/978/blur-outdoor-green-grass.jpg");
         setHeader(set, {
             visible: false,
         });

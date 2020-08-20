@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import UploadCSV from "./UploadCSV";
 import Selectors from "./Selectors";
 import { uuid } from "uuidv4";
-import { getImageDataURL } from "../../../lib/utils";
+import { getImageDataURL, getImageAsBlob } from "../../../lib/utils";
 import ImageLoader from "../../common/ImageLoader";
 import { useDesignPropsContext } from "../../../lib/context/design/design.context";
 import CreatedImagesList from "./CreatedImagesList";
@@ -30,14 +30,13 @@ export default function () {
     const fetchImage = async (width, height, html) => {
         const url = `/api/design?width=${width}&height=${height}&html=${html}`;
         const response = await fetch(url);
-        /*const blob = await response.blob(); */
-        return url;
+        const blob = await response.blob(); 
+        return getImageDataURL(blob);
     };
     const generateImages = async () => {
         const canvas = document.getElementById("canvas").cloneNode(true);
         setGeneratingImages("WORKING");
         let images = data.map((row, i) => {
-            const primary = row[generationData.primary] || "#000";
             const fileName =
                 row[generationData.header] ||
                 row[generationData.body] ||
