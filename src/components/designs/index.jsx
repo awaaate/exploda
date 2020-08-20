@@ -12,6 +12,7 @@ import Spin from "../common/Spin";
 const components = [
     dynamic(() => import("./d1")),
     dynamic(() => import("./d2")),
+    dynamic(() => import("./d3")),
 ];
 export default function ({}) {
     const { index } = useBoardContext();

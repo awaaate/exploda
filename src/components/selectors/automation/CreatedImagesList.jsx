@@ -108,7 +108,14 @@ const CreatedImagesList = ({ images, loadend, setLoadend }) => {
                     >
                         restart work
                     </div>
-                ) : null}
+                ) : (
+                    <div
+                        className="w-full h-full shadow rounded-md bg-gray-100 flex items-center justify-center"
+                        style={{ height: 100 }}
+                    >
+                        <Spin />
+                    </div>
+                )}
             </div>
 
             <Modal isOpen={downloading} className="bg-transparent">

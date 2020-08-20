@@ -19,6 +19,11 @@ const designsList = [
         id: uuid(),
         index: 1,
     },
+    {
+        image: "d3/thumbnail.jpg",
+        id: uuid(),
+        index: 2,
+    },
 ];
 
 const BoardContext = createContext({
